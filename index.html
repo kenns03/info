@@ -6,14 +6,16 @@
     <title>Organizational Chart</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: #f4f4f4;
             text-align: center;
             margin: 0;
-            padding: 0;
+            padding: 20px;
+            color: #4a2c2a;
         }
         h1, h2 {
-            margin: 20px 0;
+            margin: 10px 0;
+            color: #8b0000;
         }
         .chart {
             display: flex;
@@ -27,19 +29,20 @@
             flex-wrap: wrap;
         }
         .box {
-            border: 1px solid #000;
-            background-color: #fff;
-            padding: 10px;
+            background-color: #ffcc66;
+            color: #4a2c2a;
+            border: 2px solid #8b0000;
+            padding: 15px;
             margin: 10px;
             position: relative;
-            width: 120px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            box-sizing: border-box;
+            width: 160px;
+            border-radius: 12px;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
         }
         .line {
             width: 2px;
-            background-color: #000;
+            background-color: #8b0000;
             height: 40px;
             position: absolute;
             left: 50%;
@@ -52,7 +55,6 @@
             width: 100%;
             flex-wrap: wrap;
         }
-
         /* Mobile-Friendly Adjustments */
         @media (max-width: 600px) {
             .level, .sub-level {
@@ -62,42 +64,21 @@
                 width: 90%;
                 margin: 5px 0;
             }
-            .sub-level .box {
-                width: 100%;
-            }
-        }
-
-        /* Adjustments for larger screens */
-        @media (min-width: 601px) {
-            .level {
-                flex-wrap: nowrap;
-            }
-            .box {
-                width: 120px;
-            }
         }
     </style>
 </head>
 <body>
-
     <h1>Bicol College Inc.</h1>
     <h2>Office of College of Computer Studies</h2>
-
     <div class="chart">
         <div class="level">
             <div class="box">Jeymay B. Betiz<br>Department Dean</div>
         </div>
         <div class="level">
             <div class="box">Joan Pavia<br>Program Chair</div>
-            <div class="box">Jun-Jun B. Betiz<br>Prof.</div>
+            <div class="box">Jun-Jun B. Betiz<br>Professor</div>
         </div>
-        <div class="level">
-            <div class="box">JOhn kenneth Rebutiaco<br>Deputy Director, OSAS - Cultural Unit</div>
-            <div class="box">Sean Carl Pado<br>Deputy Director, OSAS - Discipline Unit</div>
-            <div class="box">Alvin Borres<br>Deputy Director, OSAS - Sports Unit</div>
-            <div class="box">art john pichuela<br>Deputy Director, OSAS - Scholarship Unit</div>
-        </div>
-        <div class="sub-level">
+                <div class="sub-level">
             <div class="level">
                 <div class="box">hahahahahhahaha</div>
                 <div class="box">ano</div>
@@ -105,6 +86,12 @@
                 <div class="box">ba ang</div>
                 <div class="box">hosting natin</div>
             </div>
+        </div>
+        <div class="level">
+            <div class="box">John Kenneth Rebutiaco<br>Deputy Director, OSAS - Cultural Unit</div>
+            <div class="box">Sean Carl Pado<br>Deputy Director, OSAS - Discipline Unit</div>
+            <div class="box">Alvin Borres<br>Deputy Director, OSAS - Sports Unit</div>
+            <div class="box">Art John Pichuela<br>Deputy Director, OSAS - Scholarship Unit</div>
         </div>
         <div class="sub-level">
             <div class="box">Noel B. Bahian<br>Campus OSAS Coordinator</div>
