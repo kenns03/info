@@ -70,30 +70,38 @@
             border-radius: 8px;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
         }
+        .info img {
+            max-width: 150px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
         @media (max-width: 600px) {
             .level, .sub-level {
                 flex-direction: column;
             }
             .box {
-                width: 80%;  /* Adjust box width for mobile */
+                width: 80%;
                 margin: 5px 0;
-                font-size: 14px;  /* Adjust font size for readability */
-                padding: 12px;  /* Adjust padding for smaller screens */
+                font-size: 14px;
+                padding: 12px;
             }
             h1, h2 {
-                font-size: 1.2em; /* Adjust title font size for mobile */
+                font-size: 1.2em;
             }
             .info {
-                font-size: 14px;  /* Adjust font size in the info section */
+                font-size: 14px;
                 width: 90%;
                 margin: 0 auto;
             }
         }
     </style>
     <script>
-        function toggleInfo(id) {
+        function toggleInfo(id, imageUrl) {
             var info = document.getElementById(id);
+            var image = document.getElementById(id + "-image");
             info.style.display = (info.style.display === "none" || info.style.display === "") ? "block" : "none";
+            image.src = imageUrl;
+            image.style.display = (image.style.display === "none" || image.style.display === "") ? "block" : "none";
         }
     </script>
 </head>
@@ -102,16 +110,19 @@
     <h2>Office of College of Computer Studies</h2>
     <div class="chart">
         <div class="level">
-            <div class="box" onclick="toggleInfo('info1')">Jeymay B. Betiz<br>Department Dean</div>
+            <div class="box" onclick="toggleInfo('info1', 'jeymay.jpg')">Jeymay B. Betiz<br>Department Dean</div>
         </div>
         <div class="info" id="info1">Responsible for overseeing department operations and faculty management.</div>
+        <img id="info1-image" src="dean.jpg" alt="Jeymay B. Betiz" style="display:none; max-width: 150px; border-radius: 8px;">
         
         <div class="level">
-            <div class="box" onclick="toggleInfo('info2')">Joan Pavia<br>Program Chair</div>
-            <div class="box" onclick="toggleInfo('info3')">Jun-Jun B. Betiz<br>Professor</div>
+            <div class="box" onclick="toggleInfo('info2', 'joan.jpg')">Joan Pavia<br>Program Chair</div>
+            <div class="box" onclick="toggleInfo('info3', 'jun-jun.jpg')">Jun-Jun B. Betiz<br>Professor</div>
         </div>
         <div class="info" id="info2">Oversees curriculum development and program effectiveness.</div>
         <div class="info" id="info3">Teaches various computer science subjects.</div>
+        <img id="info2-image" src="" alt="Joan Pavia" style="display:none; max-width: 150px; border-radius: 8px;">
+        <img id="info3-image" src="" alt="Jun-Jun B. Betiz" style="display:none; max-width: 150px; border-radius: 8px;">
         
         <div class="sub-level">
             <div class="level">
@@ -120,10 +131,10 @@
         </div>
         
         <div class="level">
-            <div class="box">John Kenneth Rebutiaco<br>Deputy Director, OSAS - Cultural Unit</div>
-            <div class="box">Sean Carl Pado<br>Deputy Director, OSAS - Discipline Unit</div>
-            <div class="box">Alvin Borres<br>Deputy Director, OSAS - Sports Unit</div>
-            <div class="box">Art John Pichuela<br>Deputy Director, OSAS - Scholarship Unit</div>
+            <div class="box" onclick="toggleInfo('info4', 'john.jpg')">John Kenneth Rebutiaco<br>Deputy Director, OSAS - Cultural Unit</div>
+            <div class="box" onclick="toggleInfo('info5', 'sean.jpg')">Sean Carl Pado<br>Deputy Director, OSAS - Discipline Unit</div>
+            <div class="box" onclick="toggleInfo('info6', 'alvin.jpg')">Alvin Borres<br>Deputy Director, OSAS - Sports Unit</div>
+            <div class="box" onclick="toggleInfo('info7', 'art.jpg')">Art John Pichuela<br>Deputy Director, OSAS - Scholarship Unit</div>
         </div>
         <div class="sub-level">
             <div class="box">Noel B. Bahian<br>Campus OSAS Coordinator</div>
