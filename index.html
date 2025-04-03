@@ -99,7 +99,9 @@
         function toggleInfo(id, imageUrl) {
             var info = document.getElementById(id);
             var image = document.getElementById(id + "-image");
+            // Toggle visibility of the info box
             info.style.display = (info.style.display === "none" || info.style.display === "") ? "block" : "none";
+            // Set image source and toggle visibility
             image.src = imageUrl;
             image.style.display = (image.style.display === "none" || image.style.display === "") ? "block" : "none";
         }
@@ -110,10 +112,10 @@
     <h2>Office of College of Computer Studies</h2>
     <div class="chart">
         <div class="level">
-            <div class="box" onclick="toggleInfo('info1', 'jeymay.jpg')">Jeymay B. Betiz<br>Department Dean</div>
+            <div class="box" onclick="toggleInfo('info1', 'dean.jpg')">Jeymay B. Betiz<br>Department Dean</div>
         </div>
         <div class="info" id="info1">Responsible for overseeing department operations and faculty management.</div>
-        <img id="info1-image" src="dean.jpg" alt="Jeymay B. Betiz" style="display:none; max-width: 150px; border-radius: 8px;">
+        <img id="info1-image" src="" alt="Jeymay B. Betiz" style="display:none; max-width: 150px; border-radius: 8px;">
         
         <div class="level">
             <div class="box" onclick="toggleInfo('info2', 'joan.jpg')">Joan Pavia<br>Program Chair</div>
