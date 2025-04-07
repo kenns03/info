@@ -1,179 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organizational Chart</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-            color: #4a2c2a;
-        }
-        h1, h2 {
-            margin: 10px 0;
-            color: #8b0000;
-        }
-        .chart {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .level {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .box {
-            background-color: #ffcc66;
-            color: #4a2c2a;
-            border: 2px solid #8b0000;
-            padding: 15px;
-            margin: 10px;
-            position: relative;
-            width: 180px;
-            border-radius: 12px;
-            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
-        }
-        .box:hover {
-            transform: scale(1.05);
-        }
-        .line {
-            width: 2px;
-            background-color: #8b0000;
-            height: 40px;
-            position: absolute;
-            left: 50%;
-            margin-left: -1px;
-            top: 100%;
-        }
-        .sub-level {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            flex-wrap: wrap;
-        }
-        .info {
-            display: none;
-            margin-top: 10px;
-            text-align: center;
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #8b0000;
-            border-radius: 8px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        .info img {
-            max-width: 150px;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-        @media (max-width: 600px) {
-            .level, .sub-level {
-                flex-direction: column;
-            }
-            .box {
-                width: 80%;
-                margin: 5px 0;
-                font-size: 14px;
-                padding: 12px;
-            }
-            h1, h2 {
-                font-size: 1.2em;
-            }
-            .info {
-                font-size: 14px;
-                width: 90%;
-                margin: 0 auto;
-            }
-        }
-    </style>
-    <script>
-        function toggleInfo(id, imageUrl) {
-            const isMobile = window.innerWidth <= 600;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Organizational Chart</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      color: #4a2c2a;
+    }
 
-            const allInfoBoxes = document.querySelectorAll('.info');
-            const allImages = document.querySelectorAll('img[id$="-image"]');
+    h1, h2 {
+      margin: 10px 0;
+      color: #8b0000;
+    }
 
-            if (isMobile) {
-                allInfoBoxes.forEach(info => {
-                    if (info.id !== id) {
-                        info.style.display = "none";
-                    }
-                });
-                allImages.forEach(img => {
-                    if (img.id !== id + "-image") {
-                        img.style.display = "none";
-                    }
-                });
+    .chart {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .level {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .box {
+      background-color: #ffcc66;
+      color: #4a2c2a;
+      border: 2px solid #8b0000;
+      padding: 15px;
+      margin: 10px;
+      position: relative;
+      width: 180px;
+      border-radius: 12px;
+      box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .box:hover {
+      transform: scale(1.05);
+    }
+
+    .info {
+      display: none;
+      margin-top: 10px;
+      text-align: center;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #8b0000;
+      border-radius: 8px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .info img {
+      max-width: 150px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .sub-level {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 600px) {
+      .level, .sub-level {
+        flex-direction: column;
+      }
+
+      .box {
+        width: 80%;
+        margin: 5px 0;
+        font-size: 14px;
+        padding: 12px;
+      }
+
+      h1, h2 {
+        font-size: 1.2em;
+      }
+
+      .info {
+        font-size: 14px;
+        width: 90%;
+        margin: 0 auto;
+      }
+
+      .mobile-hidden {
+        display: none !important;
+      }
+
+      .mobile-focus .info,
+      .mobile-focus img {
+        display: block !important;
+      }
+    }
+  </style>
+  <script>
+    function toggleInfo(id, imageUrl) {
+      const isMobile = window.innerWidth <= 600;
+      const chart = document.querySelector('.chart');
+      const info = document.getElementById(id);
+      const image = document.getElementById(id + "-image");
+      const isVisible = info.style.display === "block";
+
+      const allInfoBoxes = document.querySelectorAll('.info');
+      const allImages = document.querySelectorAll('img[id$="-image"]');
+
+      if (isMobile) {
+        if (!isVisible) {
+          // Hide all other content
+          document.querySelectorAll('.box, .info, img[id$="-image"], h1, h2').forEach(el => {
+            if (!info.contains(el) && el !== image) {
+              el.classList.add('mobile-hidden');
             }
+          });
 
-            const info = document.getElementById(id);
-            const image = document.getElementById(id + "-image");
+          // Show selected info
+          info.style.display = "block";
+          image.src = imageUrl;
+          image.style.display = "block";
 
-            const isVisible = info.style.display === "block";
-
-            info.style.display = isVisible ? "none" : "block";
-            image.src = imageUrl;
-            image.style.display = isVisible ? "none" : "block";
+          chart.classList.add('mobile-focus');
+        } else {
+          // Toggle back to full view
+          document.querySelectorAll('.mobile-hidden').forEach(el => {
+            el.classList.remove('mobile-hidden');
+          });
+          info.style.display = "none";
+          image.style.display = "none";
+          chart.classList.remove('mobile-focus');
         }
-    </script>
+      } else {
+        // Desktop behavior
+        info.style.display = isVisible ? "none" : "block";
+        image.src = imageUrl;
+        image.style.display = isVisible ? "none" : "block";
+      }
+    }
+  </script>
 </head>
 <body>
-    <h1>Bicol College Inc.</h1>
-    <h2>Office of College of Computer Studies</h2>
-    <div class="chart">
-        <div class="level">
-            <div class="box" onclick="toggleInfo('info1', 'dean.jpg')">Jeymay B. Betiz<br>Department Dean</div>
-        </div>
-        <div class="info" id="info1">Responsible for overseeing department operations and faculty management.</div>
-        <img id="info1-image" src="" alt="Jeymay B. Betiz" style="display:none; max-width: 150px; border-radius: 8px;">
-        
-        <div class="level">
-            <div class="box" onclick="toggleInfo('info2', 'joan.jpg')">Joan Pavia<br>Program Chair</div>
-            <div class="box" onclick="toggleInfo('info3', 'jun-jun.jpg')">Jun-Jun B. Betiz<br>Professor</div>
-        </div>
-        <div class="info" id="info2">Oversees curriculum development and program effectiveness.</div>
-        <img id="info2-image" src="" alt="Joan Pavia" style="display:none; max-width: 150px; border-radius: 8px;">
-        
-        <div class="info" id="info3">Teaches various computer science subjects.</div>
-        <img id="info3-image" src="" alt="Jun-Jun B. Betiz" style="display:none; max-width: 150px; border-radius: 8px;">
-        
-        <div class="sub-level">
-            <div class="level">
-                <div class="box">Additional Positions</div>
-            </div>
-        </div>
-        
-        <div class="level">
-            <div class="box" onclick="toggleInfo('info4', 'john.jpg')">John Kenneth Rebutiaco<br>Deputy Director, OSAS - Cultural Unit</div>
-            <div class="box" onclick="toggleInfo('info5', 'sean.jpg')">Sean Carl Pado<br>Deputy Director, OSAS - Discipline Unit</div>
-            <div class="box" onclick="toggleInfo('info6', 'alvin.jpg')">Alvin Borres<br>Deputy Director, OSAS - Sports Unit</div>
-            <div class="box" onclick="toggleInfo('info7', 'art.jpg')">Art John Pichuela<br>Deputy Director, OSAS - Scholarship Unit</div>
-        </div>
-        <div class="info" id="info4">Leads and organizes cultural events and activities.</div>
-        <img id="info4-image" src="" alt="John Kenneth Rebutiaco" style="display:none; max-width: 150px; border-radius: 8px;">
-        <div class="info" id="info5">Handles discipline-related concerns and policies.</div>
-        <img id="info5-image" src="" alt="Sean Carl Pado" style="display:none; max-width: 150px; border-radius: 8px;">
-        <div class="info" id="info6">Coordinates sports programs and athlete support.</div>
-        <img id="info6-image" src="" alt="Alvin Borres" style="display:none; max-width: 150px; border-radius: 8px;">
-        <div class="info" id="info7">Manages scholarship applications and records.</div>
-        <img id="info7-image" src="" alt="Art John Pichuela" style="display:none; max-width: 150px; border-radius: 8px;">
-        
-        <div class="sub-level">
-            <div class="box">Marinel Marco<br>Campus OSAS Coordinator</div>
-            <div class="box">Charlene Kaye Mangampo<br>Campus OSAS Coordinator</div>
-            <div class="box">Mabel Arena<br>Campus OSAS Coordinator</div>
-            <div class="box">Edwin L. Solilap<br>Campus OSAS Coordinator</div>
-            <div class="box">College OSAS Coordinator</div>
-        </div>
+  <h1>Bicol College Inc.</h1>
+  <h2>Office of College of Computer Studies</h2>
+  <div class="chart">
+    <div class="level">
+      <div class="box" onclick="toggleInfo('info1', 'dean.jpg')">Jeymay B. Betiz<br>Department Dean</div>
     </div>
+    <div class="info" id="info1">Responsible for overseeing department operations and faculty management.</div>
+    <img id="info1-image" src="" alt="Jeymay B. Betiz" style="display:none; max-width: 150px; border-radius: 8px;">
+
+    <div class="level">
+      <div class="box" onclick="toggleInfo('info2', 'joan.jpg')">Joan Pavia<br>Program Chair</div>
+      <div class="box" onclick="toggleInfo('info3', 'jun-jun.jpg')">Jun-Jun B. Betiz<br>Professor</div>
+    </div>
+    <div class="info" id="info2">Oversees curriculum development and program effectiveness.</div>
+    <img id="info2-image" src="" alt="Joan Pavia" style="display:none; max-width: 150px; border-radius: 8px;">
+    <div class="info" id="info3">Teaches various computer science subjects.</div>
+    <img id="info3-image" src="" alt="Jun-Jun B. Betiz" style="display:none; max-width: 150px; border-radius: 8px;">
+
+    <div class="sub-level">
+      <div class="level">
+        <div class="box">Additional Positions</div>
+      </div>
+    </div>
+
+    <div class="level">
+      <div class="box" onclick="toggleInfo('info4', 'john.jpg')">John Kenneth Rebutiaco<br>Deputy Director, OSAS - Cultural Unit</div>
+      <div class="box" onclick="toggleInfo('info5', 'sean.jpg')">Sean Carl Pado<br>Deputy Director, OSAS - Discipline Unit</div>
+      <div class="box" onclick="toggleInfo('info6', 'alvin.jpg')">Alvin Borres<br>Deputy Director, OSAS - Sports Unit</div>
+      <div class="box" onclick="toggleInfo('info7', 'art.jpg')">Art John Pichuela<br>Deputy Director, OSAS - Scholarship Unit</div>
+    </div>
+    <div class="info" id="info4">Leads and organizes cultural events and activities.</div>
+    <img id="info4-image" src="" alt="John Kenneth Rebutiaco" style="display:none; max-width: 150px; border-radius: 8px;">
+    <div class="info" id="info5">Handles discipline-related concerns and policies.</div>
+    <img id="info5-image" src="" alt="Sean Carl Pado" style="display:none; max-width: 150px; border-radius: 8px;">
+    <div class="info" id="info6">Coordinates sports programs and athlete support.</div>
+    <img id="info6-image" src="" alt="Alvin Borres" style="display:none; max-width: 150px; border-radius: 8px;">
+    <div class="info" id="info7">Manages scholarship applications and records.</div>
+    <img id="info7-image" src="" alt="Art John Pichuela" style="display:none; max-width: 150px; border-radius: 8px;">
+
+    <div class="sub-level">
+      <div class="box">Marinel Marco<br>Campus OSAS Coordinator</div>
+      <div class="box">Charlene Kaye Mangampo<br>Campus OSAS Coordinator</div>
+      <div class="box">Mabel Arena<br>Campus OSAS Coordinator</div>
+      <div class="box">Edwin L. Solilap<br>Campus OSAS Coordinator</div>
+      <div class="box">College OSAS Coordinator</div>
+    </div>
+  </div>
 </body>
 </html>
