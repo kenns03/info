@@ -75,78 +75,69 @@
       flex-wrap: wrap;
     }
 
+    /* Hides everything except selected info on mobile */
     @media (max-width: 600px) {
-      .level, .sub-level {
-        flex-direction: column;
-      }
-
-      .box {
-        width: 80%;
-        margin: 5px 0;
-        font-size: 14px;
-        padding: 12px;
-      }
-
-      h1, h2 {
-        font-size: 1.2em;
-      }
-
-      .info {
-        font-size: 14px;
-        width: 90%;
-        margin: 0 auto;
-      }
-
       .mobile-hidden {
         display: none !important;
       }
 
-      .mobile-focus .info,
-      .mobile-focus img {
+      .full-profile {
         display: block !important;
+        padding: 20px;
+      }
+
+      .full-profile img {
+        display: block !important;
+        margin: 10px auto;
+        max-width: 80%;
       }
     }
   </style>
   <script>
     function toggleInfo(id, imageUrl) {
       const isMobile = window.innerWidth <= 600;
-      const chart = document.querySelector('.chart');
       const info = document.getElementById(id);
       const image = document.getElementById(id + "-image");
-      const isVisible = info.style.display === "block";
+      const allBoxes = document.querySelectorAll(".box");
+      const allInfo = document.querySelectorAll(".info");
+      const allImages = document.querySelectorAll("img[id$='-image']");
+      const headings = document.querySelectorAll("h1, h2");
+      const chart = document.querySelector(".chart");
 
-      const allInfoBoxes = document.querySelectorAll('.info');
-      const allImages = document.querySelectorAll('img[id$="-image"]');
+      const isAlreadyShown = info.classList.contains("full-profile");
+
+      // Reset all info/image
+      allInfo.forEach(i => {
+        i.style.display = "none";
+        i.classList.remove("full-profile");
+      });
+      allImages.forEach(img => {
+        img.style.display = "none";
+        img.classList.remove("full-profile");
+      });
 
       if (isMobile) {
-        if (!isVisible) {
-          // Hide all other content
-          document.querySelectorAll('.box, .info, img[id$="-image"], h1, h2').forEach(el => {
-            if (!info.contains(el) && el !== image) {
-              el.classList.add('mobile-hidden');
-            }
-          });
+        // On mobile, show only selected person's profile
+        if (!isAlreadyShown) {
+          allBoxes.forEach(b => b.classList.add("mobile-hidden"));
+          headings.forEach(h => h.classList.add("mobile-hidden"));
 
-          // Show selected info
           info.style.display = "block";
+          info.classList.add("full-profile");
           image.src = imageUrl;
           image.style.display = "block";
-
-          chart.classList.add('mobile-focus');
+          image.classList.add("full-profile");
         } else {
-          // Toggle back to full view
-          document.querySelectorAll('.mobile-hidden').forEach(el => {
-            el.classList.remove('mobile-hidden');
-          });
-          info.style.display = "none";
-          image.style.display = "none";
-          chart.classList.remove('mobile-focus');
+          // Unclick = show everything back
+          allBoxes.forEach(b => b.classList.remove("mobile-hidden"));
+          headings.forEach(h => h.classList.remove("mobile-hidden"));
         }
       } else {
-        // Desktop behavior
-        info.style.display = isVisible ? "none" : "block";
+        // On desktop: normal toggle
+        const visible = info.style.display === "block";
+        info.style.display = visible ? "none" : "block";
         image.src = imageUrl;
-        image.style.display = isVisible ? "none" : "block";
+        image.style.display = visible ? "none" : "block";
       }
     }
   </script>
@@ -159,16 +150,16 @@
       <div class="box" onclick="toggleInfo('info1', 'dean.jpg')">Jeymay B. Betiz<br>Department Dean</div>
     </div>
     <div class="info" id="info1">Responsible for overseeing department operations and faculty management.</div>
-    <img id="info1-image" src="" alt="Jeymay B. Betiz" style="display:none; max-width: 150px; border-radius: 8px;">
+    <img id="info1-image" src="" alt="Jeymay B. Betiz" style="display:none;">
 
     <div class="level">
       <div class="box" onclick="toggleInfo('info2', 'joan.jpg')">Joan Pavia<br>Program Chair</div>
       <div class="box" onclick="toggleInfo('info3', 'jun-jun.jpg')">Jun-Jun B. Betiz<br>Professor</div>
     </div>
     <div class="info" id="info2">Oversees curriculum development and program effectiveness.</div>
-    <img id="info2-image" src="" alt="Joan Pavia" style="display:none; max-width: 150px; border-radius: 8px;">
+    <img id="info2-image" src="" alt="Joan Pavia" style="display:none;">
     <div class="info" id="info3">Teaches various computer science subjects.</div>
-    <img id="info3-image" src="" alt="Jun-Jun B. Betiz" style="display:none; max-width: 150px; border-radius: 8px;">
+    <img id="info3-image" src="" alt="Jun-Jun B. Betiz" style="display:none;">
 
     <div class="sub-level">
       <div class="level">
@@ -183,13 +174,13 @@
       <div class="box" onclick="toggleInfo('info7', 'art.jpg')">Art John Pichuela<br>Deputy Director, OSAS - Scholarship Unit</div>
     </div>
     <div class="info" id="info4">Leads and organizes cultural events and activities.</div>
-    <img id="info4-image" src="" alt="John Kenneth Rebutiaco" style="display:none; max-width: 150px; border-radius: 8px;">
+    <img id="info4-image" src="" alt="John Kenneth Rebutiaco" style="display:none;">
     <div class="info" id="info5">Handles discipline-related concerns and policies.</div>
-    <img id="info5-image" src="" alt="Sean Carl Pado" style="display:none; max-width: 150px; border-radius: 8px;">
+    <img id="info5-image" src="" alt="Sean Carl Pado" style="display:none;">
     <div class="info" id="info6">Coordinates sports programs and athlete support.</div>
-    <img id="info6-image" src="" alt="Alvin Borres" style="display:none; max-width: 150px; border-radius: 8px;">
+    <img id="info6-image" src="" alt="Alvin Borres" style="display:none;">
     <div class="info" id="info7">Manages scholarship applications and records.</div>
-    <img id="info7-image" src="" alt="Art John Pichuela" style="display:none; max-width: 150px; border-radius: 8px;">
+    <img id="info7-image" src="" alt="Art John Pichuela" style="display:none;">
 
     <div class="sub-level">
       <div class="box">Marinel Marco<br>Campus OSAS Coordinator</div>
