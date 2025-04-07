@@ -25,7 +25,7 @@
       align-items: center;
     }
 
-    .level {
+    .level, .sub-level {
       display: flex;
       justify-content: center;
       margin-bottom: 20px;
@@ -38,7 +38,6 @@
       border: 2px solid #8b0000;
       padding: 15px;
       margin: 10px;
-      position: relative;
       width: 180px;
       border-radius: 12px;
       box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
@@ -53,93 +52,99 @@
 
     .info {
       display: none;
-      margin-top: 10px;
+      margin-top: 20px;
       text-align: center;
-      padding: 10px;
+      padding: 20px;
       background-color: #fff;
       border: 1px solid #8b0000;
       border-radius: 8px;
       box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+      max-width: 90%;
     }
 
     .info img {
-      max-width: 150px;
+      max-width: 200px;
       border-radius: 8px;
       margin-top: 10px;
     }
 
-    .sub-level {
-      display: flex;
-      justify-content: space-around;
-      width: 100%;
-      flex-wrap: wrap;
+    .hidden {
+      display: none !important;
     }
 
-    /* Hides everything except selected info on mobile */
-    @media (max-width: 600px) {
-      .mobile-hidden {
-        display: none !important;
-      }
-
-      .full-profile {
-        display: block !important;
-        padding: 20px;
-      }
-
-      .full-profile img {
-        display: block !important;
-        margin: 10px auto;
-        max-width: 80%;
-      }
+    .full-screen-profile {
+      display: block !important;
     }
   </style>
   <script>
+    let currentProfileId = null;
+
     function toggleInfo(id, imageUrl) {
-      const isMobile = window.innerWidth <= 600;
       const info = document.getElementById(id);
       const image = document.getElementById(id + "-image");
+      const isVisible = info.classList.contains("full-screen-profile");
+
       const allBoxes = document.querySelectorAll(".box");
       const allInfo = document.querySelectorAll(".info");
       const allImages = document.querySelectorAll("img[id$='-image']");
       const headings = document.querySelectorAll("h1, h2");
-      const chart = document.querySelector(".chart");
 
-      const isAlreadyShown = info.classList.contains("full-profile");
-
-      // Reset all info/image
+      // Reset all
       allInfo.forEach(i => {
+        i.classList.remove("full-screen-profile");
         i.style.display = "none";
-        i.classList.remove("full-profile");
       });
       allImages.forEach(img => {
+        img.classList.remove("full-screen-profile");
         img.style.display = "none";
-        img.classList.remove("full-profile");
       });
 
-      if (isMobile) {
-        // On mobile, show only selected person's profile
-        if (!isAlreadyShown) {
-          allBoxes.forEach(b => b.classList.add("mobile-hidden"));
-          headings.forEach(h => h.classList.add("mobile-hidden"));
+      if (!isVisible) {
+        allBoxes.forEach(b => b.classList.add("hidden"));
+        headings.forEach(h => h.classList.add("hidden"));
 
-          info.style.display = "block";
-          info.classList.add("full-profile");
-          image.src = imageUrl;
-          image.style.display = "block";
-          image.classList.add("full-profile");
-        } else {
-          // Unclick = show everything back
-          allBoxes.forEach(b => b.classList.remove("mobile-hidden"));
-          headings.forEach(h => h.classList.remove("mobile-hidden"));
-        }
-      } else {
-        // On desktop: normal toggle
-        const visible = info.style.display === "block";
-        info.style.display = visible ? "none" : "block";
+        info.style.display = "block";
+        info.classList.add("full-screen-profile");
         image.src = imageUrl;
-        image.style.display = visible ? "none" : "block";
+        image.style.display = "block";
+        image.classList.add("full-screen-profile");
+
+        currentProfileId = id;
+      } else {
+        restoreView();
       }
     }
+
+    function restoreView() {
+      const allBoxes = document.querySelectorAll(".box");
+      const allInfo = document.querySelectorAll(".info");
+      const allImages = document.querySelectorAll("img[id$='-image']");
+      const headings = document.querySelectorAll("h1, h2");
+
+      allBoxes.forEach(b => b.classList.remove("hidden"));
+      headings.forEach(h => h.classList.remove("hidden"));
+      allInfo.forEach(i => {
+        i.classList.remove("full-screen-profile");
+        i.style.display = "none";
+      });
+      allImages.forEach(img => {
+        img.classList.remove("full-screen-profile");
+        img.style.display = "none";
+      });
+
+      currentProfileId = null;
+    }
+
+    document.addEventListener("click", function (event) {
+      const clickedInsideBox = event.target.closest(".box");
+      const clickedInsideInfo = event.target.closest(".info");
+      const clickedImage = event.target.closest("img.full-screen-profile");
+
+      // If profile is shown and user clicks outside box/info/image, restore view
+      if (currentProfileId && !clickedInsideBox && !clickedInsideInfo && !clickedImage) {
+        restoreView();
+      }
+    });
   </script>
 </head>
 <body>
