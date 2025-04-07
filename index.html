@@ -97,13 +97,32 @@
     </style>
     <script>
         function toggleInfo(id, imageUrl) {
-            var info = document.getElementById(id);
-            var image = document.getElementById(id + "-image");
-            // Toggle visibility of the info box
-            info.style.display = (info.style.display === "none" || info.style.display === "") ? "block" : "none";
-            // Set image source and toggle visibility
+            const isMobile = window.innerWidth <= 600;
+
+            const allInfoBoxes = document.querySelectorAll('.info');
+            const allImages = document.querySelectorAll('img[id$="-image"]');
+
+            if (isMobile) {
+                allInfoBoxes.forEach(info => {
+                    if (info.id !== id) {
+                        info.style.display = "none";
+                    }
+                });
+                allImages.forEach(img => {
+                    if (img.id !== id + "-image") {
+                        img.style.display = "none";
+                    }
+                });
+            }
+
+            const info = document.getElementById(id);
+            const image = document.getElementById(id + "-image");
+
+            const isVisible = info.style.display === "block";
+
+            info.style.display = isVisible ? "none" : "block";
             image.src = imageUrl;
-            image.style.display = (image.style.display === "none" || image.style.display === "") ? "block" : "none";
+            image.style.display = isVisible ? "none" : "block";
         }
     </script>
 </head>
@@ -122,8 +141,9 @@
             <div class="box" onclick="toggleInfo('info3', 'jun-jun.jpg')">Jun-Jun B. Betiz<br>Professor</div>
         </div>
         <div class="info" id="info2">Oversees curriculum development and program effectiveness.</div>
-        <div class="info" id="info3">Teaches various computer science subjects.</div>
         <img id="info2-image" src="" alt="Joan Pavia" style="display:none; max-width: 150px; border-radius: 8px;">
+        
+        <div class="info" id="info3">Teaches various computer science subjects.</div>
         <img id="info3-image" src="" alt="Jun-Jun B. Betiz" style="display:none; max-width: 150px; border-radius: 8px;">
         
         <div class="sub-level">
@@ -138,6 +158,15 @@
             <div class="box" onclick="toggleInfo('info6', 'alvin.jpg')">Alvin Borres<br>Deputy Director, OSAS - Sports Unit</div>
             <div class="box" onclick="toggleInfo('info7', 'art.jpg')">Art John Pichuela<br>Deputy Director, OSAS - Scholarship Unit</div>
         </div>
+        <div class="info" id="info4">Leads and organizes cultural events and activities.</div>
+        <img id="info4-image" src="" alt="John Kenneth Rebutiaco" style="display:none; max-width: 150px; border-radius: 8px;">
+        <div class="info" id="info5">Handles discipline-related concerns and policies.</div>
+        <img id="info5-image" src="" alt="Sean Carl Pado" style="display:none; max-width: 150px; border-radius: 8px;">
+        <div class="info" id="info6">Coordinates sports programs and athlete support.</div>
+        <img id="info6-image" src="" alt="Alvin Borres" style="display:none; max-width: 150px; border-radius: 8px;">
+        <div class="info" id="info7">Manages scholarship applications and records.</div>
+        <img id="info7-image" src="" alt="Art John Pichuela" style="display:none; max-width: 150px; border-radius: 8px;">
+        
         <div class="sub-level">
             <div class="box">Marinel Marco<br>Campus OSAS Coordinator</div>
             <div class="box">Charlene Kaye Mangampo<br>Campus OSAS Coordinator</div>
